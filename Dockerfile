@@ -30,7 +30,5 @@ RUN chown runner:runner /teamcity/conf/buildAgent.properties
 USER runner
 
 WORKDIR /teamcity/bin
-RUN cd bin && ./install.sh http://ci.i.ipfs.io:8111
-
-ADD start.sh /teamcity/start.sh
-CMD ./start.sh
+RUN ./install.sh http://ci.i.ipfs.io:8111
+CMD ./agent.sh run
