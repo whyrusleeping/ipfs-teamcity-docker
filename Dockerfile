@@ -10,7 +10,7 @@ RUN chown -R runner:runner /home/runner
 
 #RUN pacman --noconfirm -S go nodejs wget jre8-openjdk unzip make jq openbsd-netcat npm chromium firefox xorg-server-xvfb
 RUN apt-get update
-RUN apt-get -y install nodejs unzip jq npm
+RUN apt-get -y install nodejs unzip jq npm netcat-openbsd
 RUN apt-get -y install default-jre-headless
 
 
