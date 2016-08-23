@@ -1,9 +1,4 @@
-FROM base/devel
-
-RUN pacman-key --refresh-keys
-RUN pacman-db-upgrade
-RUN pacman --noconfirm -Syu
-RUN pacman-db-upgrade
+FROM golang:1.7
 
 RUN mkdir /teamcity
 WORKDIR /teamcity
@@ -13,7 +8,15 @@ RUN chown -R runner:runner /teamcity
 RUN mkdir /home/runner
 RUN chown -R runner:runner /home/runner
 
-RUN pacman --noconfirm -S go nodejs wget jre8-openjdk unzip make jq openbsd-netcat npm chromium
+#RUN pacman --noconfirm -S go nodejs wget jre8-openjdk unzip make jq openbsd-netcat npm chromium firefox xorg-server-xvfb
+RUN apt-get update
+RUN apt-get -y install nodejs unzip jq npm
+RUN apt-get -y install default-jre-headless
+
+
+#ADD xvfb-chromium /usr/bin/xvfb-chromium
+#RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome
+#RUN ln -s /usr/bin/xvfb-chromium /usr/bin/chromium-browser
 
 USER runner
 RUN wget http://ci.i.ipfs.io:8111/update/buildAgent.zip
@@ -27,5 +30,7 @@ RUN chown runner:runner /teamcity/conf/buildAgent.properties
 USER runner
 
 WORKDIR /teamcity/bin
-RUN ./install.sh http://ci.i.ipfs.io:8111
-CMD ./agent.sh run
+RUN cd bin && ./install.sh http://ci.i.ipfs.io:8111
+
+ADD start.sh /teamcity/start.sh
+CMD ./start.sh
