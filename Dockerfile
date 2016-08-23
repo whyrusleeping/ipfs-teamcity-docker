@@ -9,9 +9,12 @@ RUN mkdir /home/runner
 RUN chown -R runner:runner /home/runner
 
 #RUN pacman --noconfirm -S go nodejs wget jre8-openjdk unzip make jq openbsd-netcat npm chromium firefox xorg-server-xvfb
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+
 RUN apt-get update
-RUN apt-get -y install nodejs unzip jq npm netcat-openbsd
+RUN apt-get -y install unzip jq netcat-openbsd build-essential nodejs
 RUN apt-get -y install default-jre-headless
+
 
 
 #ADD xvfb-chromium /usr/bin/xvfb-chromium
